@@ -2,15 +2,18 @@ import React from 'react';
 import cheerio from 'cheerio';
 
 export default ({ id }) => ({
-  headElements: (elements, { stage }) => {
+  afterExport: ({ stage }) => {
     if (stage === 'prod') {
       if (!id) {
         console.warn(
           'No Google Tag Manager ID was provided, will not insert GTM script!'
         );
-        return elements;
       }
+    }
+  },
 
+  headElements: (elements, { stage }) => {
+    if (stage === 'prod' && id) {
       return [
         <script
           key="gtm"
