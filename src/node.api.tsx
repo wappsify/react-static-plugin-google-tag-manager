@@ -12,7 +12,7 @@ export default ({ id }) => ({
     }
   },
 
-  headElements: (elements, { stage }) => {
+  headElements: (elements: React.ReactNodeArray, { stage }) => {
     if (stage === 'prod' && id) {
       return [
         <script
@@ -31,7 +31,8 @@ export default ({ id }) => ({
 
     return elements;
   },
-  beforeDocumentToFile: (html, { stage }) => {
+
+  beforeDocumentToFile: (html: string, { stage }) => {
     if (stage === 'prod' && id) {
       const $ = cheerio.load(html);
 
