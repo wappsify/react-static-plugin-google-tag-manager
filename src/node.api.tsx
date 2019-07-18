@@ -6,7 +6,7 @@ export default ({ id }) => ({
     if (stage === 'prod') {
       if (!id) {
         console.warn(
-          'No Google Tag Manager ID was provided, will not insert GTM script!'
+          'Warning: react-static-plugin-google-tag-manager - No Google Tag Manager ID was provided, will not insert GTM script.'
         );
       }
     }
