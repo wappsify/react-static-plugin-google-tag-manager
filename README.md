@@ -19,7 +19,8 @@ export default {
       'react-static-plugin-google-tag-manager',
       {
         // example configuration
-        id: 'your-gtm-id-here'
+        id: 'your-gtm-id-here',
+        debug: true
       }
     ]
   ]
@@ -33,3 +34,9 @@ In your `static.config.js`, you should pass configuration options to the plugin.
 ### `id: string`
 
 Pass your Google Tag Manager ID in here. The plugin will not work without it.
+
+### `debug: boolean`
+
+Default value: `false`
+
+When setting `debug` to `true`, the plugin will not check for `stage === 'prod'` and instead always inject the GTM. Useful for debugging data layer events and such locally.
