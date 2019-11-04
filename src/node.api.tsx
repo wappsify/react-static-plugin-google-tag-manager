@@ -1,9 +1,9 @@
 import React from 'react';
 import cheerio from 'cheerio';
 
-export default ({ id }) => ({
+export default ({ id, debug = false }) => ({
   afterExport: ({ stage }) => {
-    if (stage === 'prod') {
+    if (stage === 'prod' || debug) {
       if (!id) {
         console.warn(
           'Warning: react-static-plugin-google-tag-manager - No Google Tag Manager ID was provided, will not insert GTM script.'
@@ -33,7 +33,7 @@ export default ({ id }) => ({
   },
 
   beforeDocumentToFile: (html: string, { stage }) => {
-    if (stage === 'prod' && id) {
+    if ((stage === 'prod' || debug) && id) {
       const $ = cheerio.load(html);
 
       $('body')
