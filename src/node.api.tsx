@@ -1,48 +1,49 @@
 import React from 'react';
+import { renderToStaticMarkup } from 'react-dom/server';
 import cheerio from 'cheerio';
+import { Script, NoScript } from './GtmComponents';
+import { GTMPlugin } from './types';
 
-export default ({ id, debug = false }) => ({
-  afterExport: ({ stage }) => {
-    if (stage === 'prod' || debug) {
-      if (!id) {
+const gtmPlugin: GTMPlugin = ({ id, debug = false }) => {
+  let shouldInsert = false;
+  const idExists = typeof id === 'string';
+
+  const cache = {
+    script: undefined,
+    noscript: undefined,
+  };
+
+  return {
+    // we use the afterExport hook only for showing a warning
+    afterExport: ({ stage }) => {
+      shouldInsert = stage === 'prod' || debug;
+
+      if (shouldInsert && !idExists) {
         console.warn(
           'Warning: react-static-plugin-google-tag-manager - No Google Tag Manager ID was provided, will not insert GTM script.'
         );
       }
-    }
-  },
+    },
 
-  headElements: (elements: React.ReactNodeArray, { stage }) => {
-    if (stage === 'prod' && id) {
-      return [
-        <script
-          key="gtm"
-          dangerouslySetInnerHTML={{
-            __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-          new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-          j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-          'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-          })(window,document,'script','dataLayer','${id}');`,
-          }}
-        />,
-        ...elements,
-      ];
-    }
+    // we insert the GTM <script> and <noscript> tags in beforeDocumentToFile
+    beforeDocumentToFile: (html: string) => {
+      if (shouldInsert && idExists) {
+        const $ = cheerio.load(html);
 
-    return elements;
-  },
+        if (!cache.script && !cache.noscript) {
+          cache.script = renderToStaticMarkup(<Script id={id} />);
+          cache.noscript = renderToStaticMarkup(<NoScript id={id} />);
+        }
 
-  beforeDocumentToFile: (html: string, { stage }) => {
-    if ((stage === 'prod' || debug) && id) {
-      const $ = cheerio.load(html);
+        $('head').prepend(cache.script);
+        $('body').prepend(cache.noscript);
 
-      $('body')
-        .prepend(`<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=${id}"
-      height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>`);
+        return $.html();
+      }
 
-      return $.html();
-    }
+      return html;
+    },
+  };
+};
 
-    return html;
-  },
-});
+export default gtmPlugin;
