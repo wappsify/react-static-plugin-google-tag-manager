@@ -20,10 +20,10 @@ export default {
       {
         // example configuration
         id: 'your-gtm-id-here',
-        debug: true
-      }
-    ]
-  ]
+        debug: true,
+      },
+    ],
+  ],
 };
 ```
 
