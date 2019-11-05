@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## v1.1.0 (2019-11--5)
 
 - Update devDependencies
 - Add `@types/cheerio` in devDependencies (for full typing for `cheerio`)
