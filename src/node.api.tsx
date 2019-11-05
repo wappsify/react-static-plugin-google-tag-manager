@@ -15,9 +15,7 @@ const gtmPlugin: GTMPlugin = ({ id, debug = false }) => {
 
   return {
     // we use the afterExport hook only for showing a warning
-    afterExport: ({ stage }) => {
-      shouldInsert = stage === 'prod' || debug;
-
+    afterExport: () => {
       if (shouldInsert && !idExists) {
         console.warn(
           'Warning: react-static-plugin-google-tag-manager - No Google Tag Manager ID was provided, will not insert GTM script.'
@@ -26,7 +24,9 @@ const gtmPlugin: GTMPlugin = ({ id, debug = false }) => {
     },
 
     // we insert the GTM <script> and <noscript> tags in beforeDocumentToFile
-    beforeDocumentToFile: (html: string) => {
+    beforeDocumentToFile: (html: string, { stage }) => {
+      if (!shouldInsert) shouldInsert = stage === 'prod' || debug;
+
       if (shouldInsert && idExists) {
         const $ = cheerio.load(html);
 
