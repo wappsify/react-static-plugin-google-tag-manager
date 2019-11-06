@@ -1,4 +1,7 @@
-# react-static-plugin-google-tag-manager
+# react-static-plugin-google-tag-manager 📈
+
+![License](https://img.shields.io/github/license/wappsify/react-static-plugin-google-tag-manager.svg)
+![David dependencies](https://david-dm.org/wappsify/react-static-plugin-google-tag-manager.svg)
 
 This plugin adds the GTM script tag to your HTML files. You only need to supply the GTM ID.
 
