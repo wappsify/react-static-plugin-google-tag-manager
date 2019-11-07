@@ -1,6 +1,10 @@
 # Changelog
 
-## v1.1.0 (2019-11--5)
+## v1.1.1 (2019-11-07)
+
+- Fix `debug` flag not inserting `<script>` tag in development mode
+
+## v1.1.0 (2019-11-05)
 
 - Update devDependencies
 - Add `@types/cheerio` in devDependencies (for full typing for `cheerio`)
