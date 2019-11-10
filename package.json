@@ -17,6 +17,7 @@
   "private": false,
   "scripts": {
     "watch": "yarn build --watch",
+    "prepublish": "yarn build",
     "build": "babel src --out-dir './dist' --extensions '.tsx'"
   },
   "devDependencies": {

@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Add `prepublish` task in `package.json`
+
 ## v1.1.1 (2019-11-07)
 
 - Fix `debug` flag not inserting `<script>` tag in development mode
