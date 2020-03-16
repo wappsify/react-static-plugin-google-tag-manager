@@ -4,7 +4,11 @@ import cheerio from 'cheerio';
 import { Script, NoScript } from './GtmComponents';
 import { GTMPlugin } from './types';
 
-const gtmPlugin: GTMPlugin = ({ id, debug = false }) => {
+const gtmPlugin: GTMPlugin = ({
+  id,
+  debug = false,
+  preventloadingByCookie,
+}) => {
   let shouldInsert = false;
   const idExists = typeof id === 'string';
 
@@ -25,7 +29,12 @@ const gtmPlugin: GTMPlugin = ({ id, debug = false }) => {
 
     // we only use the headElements hook if debug flag is set
     headElements: (elements: React.ReactNodeArray) =>
-      debug ? [<Script id={id} />, ...elements] : elements,
+      debug
+        ? [
+            <Script id={id} preventloadingByCookie={preventloadingByCookie} />,
+            ...elements,
+          ]
+        : elements,
     // we insert the GTM <script> and <noscript> tags in beforeDocumentToFile
     beforeDocumentToFile: (html: string, { stage }) => {
       if (!shouldInsert) shouldInsert = stage === 'prod' || debug;
@@ -34,8 +43,12 @@ const gtmPlugin: GTMPlugin = ({ id, debug = false }) => {
         const $ = cheerio.load(html);
 
         if (!cache.script && !cache.noscript && !debug) {
-          cache.script = renderToStaticMarkup(<Script id={id} />);
-          cache.noscript = renderToStaticMarkup(<NoScript id={id} />);
+          cache.script = renderToStaticMarkup(
+            <Script id={id} preventloadingByCookie={preventloadingByCookie} />
+          );
+          cache.noscript = renderToStaticMarkup(
+            <NoScript id={id} preventloadingByCookie={preventloadingByCookie} />
+          );
         }
 
         $('head').prepend(cache.script);
