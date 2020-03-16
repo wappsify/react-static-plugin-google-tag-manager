@@ -1,12 +1,12 @@
 import React from 'react';
-import { GtmComponentProps, PreventloadingByCookie } from './types';
+import { GtmComponentProps, CookieRestriction } from './types';
 
 export const Script: React.FC<GtmComponentProps> = ({
   id,
-  preventloadingByCookie,
+  cookieRestriction,
 }) => (
   <>
-    {loadScript(preventloadingByCookie) && (
+    {loadScript(cookieRestriction) && (
       <script
         key="gtm"
         dangerouslySetInnerHTML={{
@@ -32,17 +32,14 @@ export const NoScript: React.FC<GtmComponentProps> = ({ id }) => (
   </noscript>
 );
 
-const loadScript = (
-  preventloadingByCookie: PreventloadingByCookie
-): boolean => {
-  if (typeof document !== undefined) {
-    return (
-      getCookieValue(preventloadingByCookie.cookieName) ===
-      preventloadingByCookie.value
-    );
+const loadScript = (restriction: CookieRestriction): boolean => {
+  if (!restriction) {
+    return true;
   }
-
-  return true;
+  return (
+    typeof document !== undefined &&
+    getCookieValue(restriction.cookieName) === restriction.value
+  );
 };
 
 function getCookieValue(cookieName: string): string | boolean {
