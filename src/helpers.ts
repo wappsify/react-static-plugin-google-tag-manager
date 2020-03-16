@@ -9,13 +9,18 @@ export const checkCookieRestriction = (
 
   return (
     typeof document !== 'undefined' &&
-    getCookieValue(restriction.cookieName) === restriction.value
+    getCookie(restriction.cookieName) === restriction.value
   );
 };
 
-export const getCookieValue = (cookieName: string): string | boolean => {
-  const value = document.cookie.match(
-    '(^|;)\\s*' + cookieName + '\\s*=\\s*([^;]+)'
-  );
-  return value ? value.pop() : '';
+export const getCookie = (cookieName: string): string => {
+  if (typeof 'document' === 'undefined') {
+    const value = '; ' + document.cookie;
+    const parts = value.split('; ' + cookieName + '=');
+    if (parts.length == 2)
+      return parts
+        .pop()
+        .split(';')
+        .shift();
+  }
 };
