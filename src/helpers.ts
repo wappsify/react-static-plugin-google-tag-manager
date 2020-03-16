@@ -8,7 +8,7 @@ export const checkCookieRestriction = (
   }
 
   return (
-    typeof document !== undefined &&
+    typeof document !== 'undefined' &&
     getCookieValue(restriction.cookieName) === restriction.value
   );
 };
