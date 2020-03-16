@@ -1,15 +1,15 @@
 export interface GtmComponentProps {
   id: string;
-  preventloadingByCookie?: PreventloadingByCookie;
+  cookieRestriction?: CookieRestriction;
 }
 
 export interface GTMPluginOptions {
   id: string;
   debug?: boolean;
-  preventloadingByCookie?: PreventloadingByCookie;
+  cookieRestriction?: CookieRestriction;
 }
 
-export interface PreventloadingByCookie {
+export interface CookieRestriction {
   cookieName: string;
   value: string | number;
 }

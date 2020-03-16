@@ -4,11 +4,7 @@ import cheerio from 'cheerio';
 import { Script, NoScript } from './GtmComponents';
 import { GTMPlugin } from './types';
 
-const gtmPlugin: GTMPlugin = ({
-  id,
-  debug = false,
-  preventloadingByCookie,
-}) => {
+const gtmPlugin: GTMPlugin = ({ id, debug = false, cookieRestriction }) => {
   let shouldInsert = false;
   const idExists = typeof id === 'string';
 
@@ -31,7 +27,7 @@ const gtmPlugin: GTMPlugin = ({
     headElements: (elements: React.ReactNodeArray) =>
       debug
         ? [
-            <Script id={id} preventloadingByCookie={preventloadingByCookie} />,
+            <Script id={id} cookieRestriction={cookieRestriction} />,
             ...elements,
           ]
         : elements,
@@ -44,10 +40,10 @@ const gtmPlugin: GTMPlugin = ({
 
         if (!cache.script && !cache.noscript && !debug) {
           cache.script = renderToStaticMarkup(
-            <Script id={id} preventloadingByCookie={preventloadingByCookie} />
+            <Script id={id} cookieRestriction={cookieRestriction} />
           );
           cache.noscript = renderToStaticMarkup(
-            <NoScript id={id} preventloadingByCookie={preventloadingByCookie} />
+            <NoScript id={id} cookieRestriction={cookieRestriction} />
           );
         }
 
