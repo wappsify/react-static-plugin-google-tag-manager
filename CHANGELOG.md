@@ -1,8 +1,13 @@
 # Changelog
 
-## Unreleased
+## v1.1.2 (2020-03-16)
 
 - Add `prepublish` task in `package.json`
+- Update dependencies
+- Fix GTM being included twice in built HTML when debug is true (#4)
+- When debug is true, the plugin will now inject the GTM script in dev server as well
+- Multiple small refactorings (extract helpers into their own file)
+- Feature: add option to restrict loading of script based on the value of a cookie
 
 ## v1.1.1 (2019-11-07)
 
