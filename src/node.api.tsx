@@ -23,14 +23,6 @@ const gtmPlugin: GTMPlugin = ({ id, debug = false, cookieRestriction }) => {
       }
     },
 
-    // we only use the headElements hook if debug flag is set
-    headElements: (elements: React.ReactNodeArray) =>
-      debug
-        ? [
-            <Script id={id} cookieRestriction={cookieRestriction} />,
-            ...elements,
-          ]
-        : elements,
     // we insert the GTM <script> and <noscript> tags in beforeDocumentToFile
     beforeDocumentToFile: (html: string, { stage }) => {
       if (!shouldInsert) shouldInsert = stage === 'prod' || debug;
