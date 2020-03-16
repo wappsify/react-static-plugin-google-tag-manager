@@ -44,13 +44,13 @@ Default value: `false`
 
 When setting `debug` to `true`, the plugin will not check for `stage === 'prod'` and instead always inject the GTM. Useful for debugging data layer events and such locally.
 
-### `preventloadingByCookie: PreventloadingByCookie`
+### `cookieRestriction: object`
 
 ```javascript
-PreventloadingByCookie?: {
+cookieRestriction?: {
   cookieName: 'string';
   value: 'string' | 'number';
 }
 ```
 
-This is for the users who only want the GTM to be loaded when a cookie has been approved. It checks whether the cookie has the correct value and then loads the GTM.
+Only loads the GTM when a cookie is set to the supplied value.
