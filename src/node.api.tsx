@@ -33,7 +33,7 @@ const gtmPlugin: GTMPlugin = ({ id, debug = false }) => {
       if (shouldInsert && idExists) {
         const $ = cheerio.load(html);
 
-        if (!cache.script && !cache.noscript) {
+        if (!cache.script && !cache.noscript && !debug) {
           cache.script = renderToStaticMarkup(<Script id={id} />);
           cache.noscript = renderToStaticMarkup(<NoScript id={id} />);
         }
