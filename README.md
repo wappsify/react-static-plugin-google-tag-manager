@@ -48,8 +48,8 @@ When setting `debug` to `true`, the plugin will not check for `stage === 'prod'`
 
 ```javascript
 cookieRestriction?: {
-  cookieName: 'string';
-  value: 'string' | 'number';
+  cookieName: string;
+  value: string | number;
 }
 ```
 
