@@ -18,7 +18,7 @@
   "scripts": {
     "watch": "yarn build --watch",
     "prepublish": "yarn build",
-    "build": "babel src --out-dir './dist' --extensions '.ts','.tsx'"
+    "build": "babel src --out-dir \"./dist\" --extensions \".ts\",\".tsx\""
   },
   "devDependencies": {
     "@babel/cli": "7.10.5",
